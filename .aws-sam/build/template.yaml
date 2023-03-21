@@ -1,0 +1,438 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: staffer-api
+Transform:
+- AWS::Serverless-2016-10-31
+Globals:
+  Function:
+    Tracing: Active
+Resources:
+  AppointmentQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/appointment/query.query
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: AppointmentTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: AppointmentTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /appointment
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: AppointmentQueryFunction
+    Metadata:
+      SamResourceId: AppointmentQueryFunction
+  AppointmentReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/appointment/read.read
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by
+        id from a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: AppointmentTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: AppointmentTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /appointment/{id}
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: AppointmentReadFunction
+    Metadata:
+      SamResourceId: AppointmentReadFunction
+  AppointmentCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/appointment/create.create
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: AppointmentTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: AppointmentTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /appointment
+            Method: POST
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: AppointmentCreateFunction
+    Metadata:
+      SamResourceId: AppointmentCreateFunction
+  AppointmentTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+  LocationCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/location/create.create
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: LocationTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: LocationTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /location
+            Method: POST
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: LocationCreateFunction
+    Metadata:
+      SamResourceId: LocationCreateFunction
+  LocationReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/location/read.read
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by
+        id from a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: LocationTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: LocationTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /location/{id}
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: LocationReadFunction
+    Metadata:
+      SamResourceId: LocationReadFunction
+  LocationQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/location/query.query
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: LocationTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: LocationTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /location
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: LocationQueryFunction
+    Metadata:
+      SamResourceId: LocationQueryFunction
+  LocationTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+  PatientCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/patient/create.create
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: PatientTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: PatientTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /patient
+            Method: POST
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: PatientCreateFunction
+    Metadata:
+      SamResourceId: PatientCreateFunction
+  PatientReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/patient/read.read
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by
+        id from a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: PatientTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: PatientTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /patient/{id}
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: PatientReadFunction
+    Metadata:
+      SamResourceId: PatientReadFunction
+  PatientQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/patient/query.query
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: PatientTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: PatientTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /patient
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: PatientQueryFunction
+    Metadata:
+      SamResourceId: PatientQueryFunction
+  PatientTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+  DoctorCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/doctor/create.create
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: DoctorTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: DoctorTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /doctor
+            Method: POST
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: DoctorCreateFunction
+    Metadata:
+      SamResourceId: DoctorCreateFunction
+  DoctorReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/doctor/read.read
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by
+        id from a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: DoctorTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: DoctorTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /doctor/{id}
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: DoctorReadFunction
+    Metadata:
+      SamResourceId: DoctorReadFunction
+  DoctorQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/doctor/query.query
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from
+        a DynamoDB table.
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: DoctorTable
+      Environment:
+        Variables:
+          SAMPLE_TABLE:
+            Ref: DoctorTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /doctor
+            Method: GET
+            RestApiId:
+              Ref: StafferGateway
+      CodeUri: DoctorQueryFunction
+    Metadata:
+      SamResourceId: DoctorQueryFunction
+  DoctorTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+  StafferGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      TracingEnabled: true
+      Cors:
+        AllowMethods: '''*'''
+        AllowHeaders: '''*'''
+        AllowOrigin: '''*'''
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Join:
+        - ''
+        - - ApplicationInsights-SAM-
+          - Ref: AWS::StackName
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Fn::Join:
+        - ''
+        - - ApplicationInsights-SAM-
+          - Ref: AWS::StackName
+      AutoConfigurationEnabled: 'true'
+    DependsOn: ApplicationResourceGroup
+Outputs:
+  WebEndpoint:
+    Description: API Gateway endpoint URL for Prod stage
+    Value:
+      Fn::Sub: https://${StafferGateway}.execute-api.${AWS::Region}.amazonaws.com/Prod/
